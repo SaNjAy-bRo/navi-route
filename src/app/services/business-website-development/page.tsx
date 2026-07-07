@@ -218,7 +218,7 @@ export default function BusinessWebsiteDevelopmentPage() {
       <main className="flex-grow">
         
         {/* 1. HERO SECTION */}
-        <section className="relative bg-sand-100 pt-32 pb-28 lg:pt-40 lg:pb-28 overflow-hidden flex items-center min-h-[70vh]">
+        <section className="relative bg-white pt-32 pb-28 lg:pt-40 lg:pb-28 overflow-hidden flex items-center min-h-[70vh]">
           {/* DESKTOP BACKGROUND ARTWORK */}
           <div className="absolute right-0 bottom-0 top-12 w-[45%] pointer-events-none select-none z-0 opacity-35 hidden lg:block">
             <Image
@@ -587,7 +587,7 @@ export default function BusinessWebsiteDevelopmentPage() {
               <div className="flex items-center gap-4 py-2 justify-center lg:justify-start">
                 <div className="relative w-16 h-16 shrink-0">
                   <Image
-                    src="/images/service/1.png"
+                    src="/images/stat_websites_ink.png"
                     alt="Websites Delivered Icon"
                     fill
                     className="object-contain"
@@ -602,7 +602,7 @@ export default function BusinessWebsiteDevelopmentPage() {
               <div className="flex items-center gap-4 py-2 justify-center lg:justify-start">
                 <div className="relative w-16 h-16 shrink-0">
                   <Image
-                    src="/images/service/Happy Clients - Handshake.png"
+                    src="/images/stat_clients_ink.png"
                     alt="Happy Clients Icon"
                     fill
                     className="object-contain"
@@ -617,7 +617,7 @@ export default function BusinessWebsiteDevelopmentPage() {
               <div className="flex items-center gap-4 py-2 justify-center lg:justify-start">
                 <div className="relative w-16 h-16 shrink-0">
                   <Image
-                    src="/images/service/Years of Experience - Award Badge.png"
+                    src="/images/stat_experience_ink.png"
                     alt="Years Experience Icon"
                     fill
                     className="object-contain"
@@ -632,7 +632,7 @@ export default function BusinessWebsiteDevelopmentPage() {
               <div className="flex items-center gap-4 py-2 justify-center lg:justify-start">
                 <div className="relative w-16 h-16 shrink-0">
                   <Image
-                    src="/images/service/Industries Served - Sitemap.png"
+                    src="/images/stat_industries_ink.png"
                     alt="Industries Served Icon"
                     fill
                     className="object-contain"
