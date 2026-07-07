@@ -4,42 +4,79 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Phone, Menu, X, ChevronDown } from "lucide-react";
+import { Phone, Menu, X, ChevronDown, Laptop, Smartphone, Cpu, Megaphone } from "lucide-react";
 
 const navLinks = [
-  { name: "HOME", href: "#", active: true },
+  { name: "Services", href: "#services-dropdown" },
+  { name: "Work", href: "/#work" },
+  { name: "About", href: "/#about" },
+  { name: "Insights", href: "/#insights" },
+  { name: "Contact", href: "/contact" },
+];
+
+const megaMenuData = [
   {
-    name: "SERVICES",
-    href: "#services",
-    dropdown: [
-      { name: "Digital Marketing", href: "#" },
-      { name: "Social Media", href: "#" },
-      { name: "Website Design", href: "#" },
-      { name: "Content Creation", href: "#" },
-      { name: "AI Automation", href: "#" },
-      { name: "SEO Optimization", href: "#" },
-    ],
+    category: "Website Development",
+    icon: Laptop,
+    iconColor: "text-[#1D3D9E] bg-[#1D3D9E]/5",
+    items: [
+      { name: "Business Website Development", href: "/services/business-website-development", active: true },
+      { name: "React / Next.js Website Development", href: "/services/react-nextjs-website-development", active: true },
+      { name: "Ecommerce Website Development", href: "/services/ecommerce-website-development", active: true },
+      { name: "Landing Page Development", href: "/services/landing-page-development", active: true },
+      { name: "Website Redesign", href: "/services/website-redesign-services", active: true },
+      { name: "Website Maintenance", href: "/services/website-maintenance-services", active: true },
+    ]
   },
   {
-    name: "INDUSTRIES",
-    href: "#industries",
-    dropdown: [
-      { name: "Resorts & Lodges", href: "#" },
-      { name: "Homestays & Villas", href: "#" },
-      { name: "Boutique Hotels", href: "#" },
-      { name: "Spas & Wellness Centers", href: "#" },
-      { name: "Yachts & Boat Rentals", href: "#" },
-      { name: "Tours & Experiences", href: "#" },
-    ],
+    category: "App Development",
+    icon: Smartphone,
+    iconColor: "text-purple-600 bg-purple-50",
+    items: [
+      { name: "Mobile App Development", href: "/services/mobile-app-development", active: true },
+      { name: "Web App Development", href: "/services/web-app-development", active: true },
+      { name: "SaaS Product Development", href: "/services/saas-product-development", active: true },
+      { name: "CRM & Dashboard Development", href: "/services/crm-dashboard-development", active: true },
+      { name: "Booking System Development", href: "/services/booking-system-development", active: true },
+      { name: "Admin Panel Development", href: "/services/admin-panel-development", active: true },
+      { name: "Customer Portal Development", href: "/services/customer-portal-development", active: true },
+    ]
   },
-  { name: "WORK", href: "#" },
-  { name: "ABOUT US", href: "#" },
-  { name: "BLOG", href: "#" },
+  {
+    category: "AI Automation",
+    icon: Cpu,
+    iconColor: "text-emerald-600 bg-emerald-50",
+    items: [
+      { name: "AI Chatbot Development", href: "#" },
+      { name: "WhatsApp Automation", href: "#" },
+      { name: "Lead Management Automation", href: "#" },
+      { name: "CRM Automation", href: "#" },
+      { name: "Sales Follow-Up Automation", href: "#" },
+      { name: "Workflow Automation", href: "#" },
+      { name: "AI Customer Support Automation", href: "#" },
+    ]
+  },
+  {
+    category: "Digital Marketing",
+    icon: Megaphone,
+    iconColor: "text-amber-600 bg-amber-50",
+    items: [
+      { name: "Google Ads Management", href: "#" },
+      { name: "Meta Ads Management", href: "#" },
+      { name: "SEO Services", href: "#" },
+      { name: "Social Media Management", href: "#" },
+      { name: "Lead Generation Campaigns", href: "#" },
+      { name: "Performance Marketing", href: "#" },
+      { name: "Analytics & Tracking Setup", href: "#" },
+    ]
+  }
 ];
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [isServicesOpen, setIsServicesOpen] = useState(false);
+  const [activeMobileCat, setActiveMobileCat] = useState<string | null>(null);
+  const [isMobileServicesOpen, setIsMobileServicesOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -50,121 +87,179 @@ export default function Navbar() {
         setIsScrolled(false);
       }
     };
-    // Initialize status
     handleScroll();
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const toggleDropdown = (name: string) => {
-    if (activeDropdown === name) {
-      setActiveDropdown(null);
-    } else {
-      setActiveDropdown(name);
-    }
-  };
-
   return (
     <header className={`fixed top-0 z-50 w-full transition-all duration-300 ease-in-out ${
       isScrolled 
-        ? "bg-sand-100/90 backdrop-blur-md border-b border-sand-200/60 shadow-sm py-4" 
-        : "bg-transparent border-b border-transparent py-6"
+        ? "bg-[#1D3D9E] border-b border-[#FF6B00]/10 lg:border-[#1D3D9E]/5 shadow-sm py-3" 
+        : "bg-transparent border-b border-transparent py-5"
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="relative w-12 h-12 flex-shrink-0">
-              <Image
-                src="/images/logo_compass.png"
-                alt="Navi Route Compass"
-                fill
-                sizes="48px"
-                className="object-contain blend-multiply group-hover:rotate-45 transition-transform duration-700 ease-out"
+        <div className={`transition-all duration-300 ${
+          isScrolled ? "h-14" : "h-20"
+        } flex items-center w-full`}>
+          
+          {/* Desktop Version (lg+) */}
+          <div className="hidden lg:flex items-center justify-between w-full">
+            {/* Logo */}
+            <Link 
+              href="/" 
+              className="flex items-center justify-center select-none transition-all duration-300"
+              style={{
+                width: isScrolled ? '56px' : '100px',
+                height: isScrolled ? '56px' : '100px'
+              }}
+            >
+              <img
+                src={isScrolled ? "/images/light logo.png" : "/images/dark logo.png"}
+                alt="Navi Route Logo"
+                className="object-contain w-full h-full"
               />
-            </div>
-            <div className="flex flex-col">
-              <span className="font-serif text-2xl font-bold tracking-wide text-navy-800 leading-none">
-                NAVI <span className="text-orange-brand">ROUTE</span>
-              </span>
-              <span className="text-[9px] font-sans font-semibold tracking-[0.18em] text-navy-300 uppercase mt-0.5">
-                DIGITAL GROWTH PARTNERS
-              </span>
-            </div>
-          </Link>
-
-          {/* Desktop Nav Links */}
-          <nav className="hidden lg:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <div
-                key={link.name}
-                className="relative"
-                onMouseEnter={() => link.dropdown && setActiveDropdown(link.name)}
-                onMouseLeave={() => link.dropdown && setActiveDropdown(null)}
-              >
-                <Link
-                  href={link.href}
-                  className={`flex items-center gap-1 text-xs font-bold tracking-widest transition-colors py-2 ${
-                    link.active
-                      ? "text-orange-brand border-b-2 border-orange-brand/80"
-                      : "text-navy-800 hover:text-orange-brand"
-                  }`}
-                >
-                  {link.name}
-                  {link.dropdown && <ChevronDown className="w-3.5 h-3.5 opacity-75" />}
-                </Link>
-
-                {/* Dropdown Menu */}
-                {link.dropdown && (
-                  <AnimatePresence>
-                    {activeDropdown === link.name && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 10 }}
-                        transition={{ duration: 0.15 }}
-                        className="absolute left-0 mt-1 w-52 bg-sand-50 rounded-lg shadow-lg border border-sand-200/80 py-2 z-50"
-                      >
-                        {link.dropdown.map((subItem) => (
-                          <Link
-                            key={subItem.name}
-                            href={subItem.href}
-                            className="block px-4 py-2 text-xs font-semibold text-navy-800 hover:bg-sand-200/40 hover:text-orange-brand transition-colors"
-                          >
-                            {subItem.name}
-                          </Link>
-                        ))}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                )}
-              </div>
-            ))}
-          </nav>
-
-          {/* CTA Let's Talk button */}
-          <div className="hidden lg:flex items-center">
-            <Link
-              href="https://wa.me/yourwhatsappnumber"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-orange-brand hover:bg-orange-brand-hover text-sand-50 text-xs font-bold tracking-widest px-6 py-3 rounded-lg shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5 duration-200"
-            >
-              LET'S TALK
-              <Phone className="w-4 h-4" />
             </Link>
+
+            {/* Desktop Nav Links */}
+            <nav className="flex items-center gap-8">
+              {navLinks.map((link) => (
+                <div 
+                  key={link.name} 
+                  className="relative py-4"
+                  onMouseEnter={() => {
+                    if (link.name === "Services") setIsServicesOpen(true);
+                  }}
+                  onMouseLeave={() => {
+                    if (link.name === "Services") setIsServicesOpen(false);
+                  }}
+                >
+                  {link.name === "Services" ? (
+                    <button
+                      className={`text-sm font-medium transition-colors py-2 flex items-center gap-1 cursor-pointer focus:outline-none ${
+                        isScrolled ? 'text-white/90 hover:text-orange-brand' : 'text-[#0F2C59]/85 hover:text-[#1D3D9E]'
+                      }`}
+                    >
+                      <span>{link.name}</span>
+                      <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isServicesOpen ? "rotate-180" : ""}`} />
+                    </button>
+                  ) : (
+                    <Link
+                      href={link.href}
+                      className={`text-sm font-medium transition-colors py-2 ${
+                        isScrolled ? 'text-white/90 hover:text-orange-brand' : 'text-[#0F2C59]/85 hover:text-[#1D3D9E]'
+                      }`}
+                    >
+                      {link.name}
+                    </Link>
+                  )}
+
+                  {/* Mega Menu Dropdown */}
+                  {link.name === "Services" && (
+                    <AnimatePresence>
+                      {isServicesOpen && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 15 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: 15 }}
+                          transition={{ duration: 0.2 }}
+                          className="absolute left-1/2 -translate-x-1/2 top-full mt-2 bg-[#FCF9F3] border-t-4 border-t-[#FF6B00] border-x border-b border-[#1D3D9E]/10 shadow-2xl shadow-[#1D3D9E]/15 rounded-b-3xl rounded-t-lg p-8 w-[920px] grid grid-cols-4 gap-6 text-left"
+                        >
+                          {megaMenuData.map((col) => {
+                            const Icon = col.icon;
+                            return (
+                              <div key={col.category} className="space-y-4">
+                                <div className="flex items-center gap-2 border-b border-[#1D3D9E]/10 pb-2.5">
+                                  <div className={`p-1.5 rounded-lg ${col.iconColor}`}>
+                                    <Icon className="w-4 h-4" />
+                                  </div>
+                                  <span className="text-[11px] font-black uppercase tracking-wider text-[#1D3D9E]">
+                                    {col.category}
+                                  </span>
+                                </div>
+                                <ul className="space-y-2.5">
+                                  {col.items.map((item) => (
+                                    <li key={item.name}>
+                                      <Link
+                                        href={item.href}
+                                        className={`text-xs font-semibold hover:text-[#FF6B00] transition-colors block leading-relaxed relative ${
+                                          ('active' in item && item.active) 
+                                            ? "text-[#FF6B00] pl-3 before:content-[''] before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1.5 before:h-1.5 before:rounded-full before:bg-[#FF6B00]" 
+                                            : "text-[#0F2C59]/75"
+                                        }`}
+                                      >
+                                        {item.name}
+                                      </Link>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            );
+                          })}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  )}
+                </div>
+              ))}
+            </nav>
+
+            {/* CTA Let's Talk button */}
+            <div className="flex items-center">
+              <Link
+                href="https://wa.me/919986389444"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center bg-[#FF6B00] hover:bg-[#E05E00] text-white text-sm font-bold px-6 py-2.5 rounded-full transition-all duration-200"
+              >
+                Let's Talk
+              </Link>
+            </div>
           </div>
 
-          {/* Mobile menu button */}
-          <div className="flex lg:hidden">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="text-navy-800 hover:text-orange-brand transition-colors p-2"
-              aria-label="Toggle menu"
-            >
-              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
+          {/* Mobile Version (<lg) */}
+          <div className="grid grid-cols-3 items-center w-full lg:hidden">
+            {/* Left Edge: Menu trigger */}
+            <div className="flex justify-start">
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                className={`transition-colors p-2 ${isScrolled ? 'text-white/90' : 'text-[#0F2C59]'}`}
+                aria-label="Toggle menu"
+              >
+                {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              </button>
+            </div>
+
+            {/* Center: Logo */}
+            <div className="flex justify-center">
+              <Link 
+                href="/" 
+                className="flex items-center justify-center select-none transition-all duration-300"
+                style={{
+                  width: isScrolled ? '50px' : '100px',
+                  height: isScrolled ? '50px' : '100px'
+                }}
+              >
+                <img
+                  src={isScrolled ? "/images/light logo.png" : "/images/dark logo.png"}
+                  alt="Navi Route Logo"
+                  className="object-contain w-full h-full"
+                />
+              </Link>
+            </div>
+
+            {/* Right Edge: Call / Phone trigger */}
+            <div className="flex justify-end">
+              <a
+                href="tel:+919986389444"
+                className={`transition-colors p-2 ${isScrolled ? 'text-white/90' : 'text-[#0F2C59]'}`}
+                aria-label="Call us"
+              >
+                <Phone className="w-6 h-6" />
+              </a>
+            </div>
           </div>
+
         </div>
       </div>
 
@@ -176,60 +271,91 @@ export default function Navbar() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="lg:hidden bg-sand-50 border-b border-sand-200 overflow-hidden"
+            className="lg:hidden bg-[#1D3D9E] border-b border-[#FF6B00]/10 overflow-hidden text-left"
           >
             <div className="px-4 pt-2 pb-6 space-y-2">
               {navLinks.map((link) => (
-                <div key={link.name} className="border-b border-sand-200/50 pb-2">
-                  <div
-                    className="flex justify-between items-center py-2"
-                    onClick={() => link.dropdown && toggleDropdown(link.name)}
-                  >
-                    <Link
-                      href={link.href}
-                      onClick={() => !link.dropdown && setIsOpen(false)}
-                      className={`text-sm font-bold tracking-wider ${
-                        link.active ? "text-orange-brand" : "text-navy-800"
-                      }`}
-                    >
-                      {link.name}
-                    </Link>
-                    {link.dropdown && (
-                      <ChevronDown
-                        className={`w-4 h-4 text-navy-800 transition-transform ${
-                          activeDropdown === link.name ? "rotate-180" : ""
-                        }`}
-                      />
-                    )}
-                  </div>
-
-                  {/* Mobile Dropdown Items */}
-                  {link.dropdown && activeDropdown === link.name && (
-                    <div className="pl-4 py-1 space-y-2 bg-sand-100/50 rounded-md">
-                      {link.dropdown.map((subItem) => (
-                        <Link
-                          key={subItem.name}
-                          href={subItem.href}
-                          onClick={() => setIsOpen(false)}
-                          className="block py-1.5 text-xs font-semibold text-navy-800/80 hover:text-orange-brand"
-                        >
-                          {subItem.name}
-                        </Link>
-                      ))}
+                <div key={link.name} className="border-b border-white/10 pb-2">
+                  {link.name === "Services" ? (
+                    <div className="flex flex-col">
+                      <button
+                        onClick={() => setIsMobileServicesOpen(!isMobileServicesOpen)}
+                        className="flex justify-between items-center py-2 text-sm font-bold text-white/90 w-full"
+                      >
+                        <span>{link.name}</span>
+                        <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isMobileServicesOpen ? "rotate-180" : ""}`} />
+                      </button>
+                      
+                      <AnimatePresence>
+                        {isMobileServicesOpen && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: "auto" }}
+                            exit={{ opacity: 0, height: 0 }}
+                            className="pl-3 mt-1 space-y-3 overflow-hidden"
+                          >
+                            {megaMenuData.map((cat) => (
+                              <div key={cat.category} className="space-y-1">
+                                <button
+                                  onClick={() => setActiveMobileCat(activeMobileCat === cat.category ? null : cat.category)}
+                                  className="flex justify-between items-center w-full py-1 text-xs font-bold text-white/70"
+                                >
+                                  <span>{cat.category}</span>
+                                  <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${activeMobileCat === cat.category ? "rotate-180" : ""}`} />
+                                </button>
+                                
+                                <AnimatePresence>
+                                  {activeMobileCat === cat.category && (
+                                    <motion.ul
+                                      initial={{ opacity: 0, height: 0 }}
+                                      animate={{ opacity: 1, height: "auto" }}
+                                      exit={{ opacity: 0, height: 0 }}
+                                      className="pl-3 py-1 space-y-2 border-l border-white/10"
+                                    >
+                                      {cat.items.map((item) => (
+                                        <li key={item.name}>
+                                          <Link
+                                            href={item.href}
+                                            onClick={() => setIsOpen(false)}
+                                            className={`text-xs block py-1 hover:text-orange-brand transition-colors ${
+                                              ('active' in item && item.active) ? "text-[#FF6B00] font-bold" : "text-white/80"
+                                            }`}
+                                          >
+                                            {item.name}
+                                          </Link>
+                                        </li>
+                                      ))}
+                                    </motion.ul>
+                                  )}
+                                </AnimatePresence>
+                              </div>
+                            ))}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  ) : (
+                    <div className="flex justify-between items-center py-2">
+                      <Link
+                        href={link.href}
+                        onClick={() => setIsOpen(false)}
+                        className="text-sm font-bold text-white/90 hover:text-orange-brand"
+                      >
+                        {link.name}
+                      </Link>
                     </div>
                   )}
                 </div>
               ))}
 
               <Link
-                href="https://wa.me/yourwhatsappnumber"
+                href="https://wa.me/919986389444"
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setIsOpen(false)}
-                className="mt-4 flex justify-center items-center gap-2 bg-orange-brand hover:bg-orange-brand-hover text-sand-50 text-xs font-bold tracking-widest py-3 rounded-lg shadow-md w-full"
+                className="mt-4 flex justify-center items-center bg-[#FF6B00] hover:bg-[#E05E00] text-white text-sm font-bold py-3 rounded-full w-full"
               >
-                LET'S TALK
-                <Phone className="w-4 h-4" />
+                Let's Talk
               </Link>
             </div>
           </motion.div>
