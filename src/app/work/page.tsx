@@ -707,7 +707,7 @@ export default function WorkPage() {
   }, [selectedPort]);
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#FCF9F3] selection:bg-[#FF6B00]/10 selection:text-[#FF6B00] relative">
+    <div className="flex flex-col min-h-screen bg-white selection:bg-[#FF6B00]/10 selection:text-[#FF6B00] relative">
       <Navbar />
 
       {/* Floating background sketch overlay */}
@@ -762,7 +762,7 @@ export default function WorkPage() {
                   placeholder="Search ports, brands, or sectors..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-11 pr-4 py-3 bg-[#FCF9F3] border border-[#1D3D9E]/10 rounded-2xl text-sm font-semibold text-[#0F2C59] placeholder-[#0F2C59]/40 focus:outline-none focus:border-[#FF6B00] transition-colors"
+                  className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-[#1D3D9E]/10 rounded-2xl text-sm font-semibold text-[#0F2C59] placeholder-[#0F2C59]/40 focus:outline-none focus:border-[#FF6B00] transition-colors"
                 />
               </div>
 
@@ -783,7 +783,7 @@ export default function WorkPage() {
                     className={`px-4 py-2 text-xs font-bold rounded-xl transition-all duration-300 cursor-pointer ${
                       isActive
                         ? "bg-[#1D3D9E] text-white shadow-sm scale-102 border-transparent"
-                        : "bg-[#FCF9F3] text-[#0F2C59]/80 border border-[#1D3D9E]/10 hover:border-[#FF6B00]/40 hover:text-[#1D3D9E]"
+                        : "bg-slate-50 text-[#0F2C59]/80 border border-[#1D3D9E]/10 hover:border-[#FF6B00]/40 hover:text-[#1D3D9E]"
                     }`}
                   >
                     {filter.label}
@@ -802,15 +802,41 @@ export default function WorkPage() {
                   onClick={() => setSelectedPort(port)}
                   className="bg-white border border-[#1D3D9E]/10 rounded-3xl overflow-hidden flex flex-col justify-between items-start hover:border-[#FF6B00]/40 hover:shadow-lg transition-all duration-300 group relative text-left cursor-pointer"
                 >
-                  {/* Card Image Cover */}
-                  <div className="relative w-full h-52 bg-[#1D3D9E]/5 overflow-hidden select-none pointer-events-none">
+                  {/* Card Image Cover with Floating Action Links */}
+                  <div className="relative w-full h-52 bg-[#1D3D9E]/5 overflow-hidden select-none">
                     <Image
                       src={port.image}
                       alt={`${port.name} Showcase Image`}
                       fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="object-cover group-hover:scale-105 transition-transform duration-500 pointer-events-none"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-60" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-60 pointer-events-none" />
+                    
+                    {/* Floating Links at Top Right */}
+                    <div className="absolute top-3 right-3 flex items-center gap-2 z-20">
+                      <a
+                        href={port.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="bg-white/90 backdrop-blur-sm border border-[#1D3D9E]/10 px-3 py-1.5 rounded-full text-[10px] font-black text-[#1D3D9E] hover:text-[#FF6B00] transition-colors flex items-center gap-1 shadow-sm cursor-pointer"
+                        title={`Visit ${port.name} Website`}
+                      >
+                        <span>Visit Site</span>
+                        <ExternalLink className="w-3.5 h-3.5" />
+                      </a>
+                      
+                      <a
+                        href={port.instagram || `https://www.instagram.com/${port.name.toLowerCase().replace(/[^a-z0-9]/g, "")}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="h-7 w-7 rounded-full bg-gradient-to-tr from-[#F58529] via-[#DD2A7B] to-[#8134AF] text-white flex items-center justify-center shadow-md hover:scale-110 transition-transform cursor-pointer"
+                        title="Instagram Feed"
+                      >
+                        <InstagramIcon className="w-3.5 h-3.5 stroke-white" />
+                      </a>
+                    </div>
                   </div>
 
                   <div className="w-full p-6 space-y-4 flex-grow flex flex-col justify-between">
@@ -851,36 +877,14 @@ export default function WorkPage() {
                       )}
 
                       {/* Outward Buttons Container */}
-                      <div className="flex items-center justify-between w-full pt-4 border-t border-[#1D3D9E]/5">
+                      <div className="w-full pt-4 border-t border-[#1D3D9E]/5">
                         <button
                           type="button"
-                          className="flex-grow flex items-center justify-center gap-2 bg-[#1D3D9E]/5 text-[#1D3D9E] group-hover:bg-[#1D3D9E] group-hover:text-white border border-transparent text-xs font-bold py-2.5 px-4 rounded-xl transition-all duration-300"
+                          className="w-full flex items-center justify-center gap-2 bg-[#1D3D9E]/5 text-[#1D3D9E] group-hover:bg-[#1D3D9E] group-hover:text-white border border-transparent text-xs font-bold py-2.5 px-4 rounded-xl transition-all duration-300"
                         >
                           <span>View Growth Logs</span>
                           <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
                         </button>
-                        <div className="flex items-center gap-3 shrink-0 ml-3">
-                          <a
-                            href={port.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            onClick={(e) => e.stopPropagation()}
-                            className="text-[11px] font-bold text-[#FF6B00] hover:text-[#E05E00] flex items-center gap-1 hover:underline cursor-pointer"
-                          >
-                            <span>Visit Site</span>
-                            <ExternalLink className="w-3.5 h-3.5" />
-                          </a>
-                          <a
-                            href={port.instagram || `https://www.instagram.com/${port.name.toLowerCase().replace(/[^a-z0-9]/g, "")}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            onClick={(e) => e.stopPropagation()}
-                            className="text-[#0F2C59]/60 hover:text-[#FF6B00] transition-colors cursor-pointer"
-                            title="Instagram Log"
-                          >
-                            <InstagramIcon className="w-4 h-4" />
-                          </a>
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -974,7 +978,7 @@ export default function WorkPage() {
             {/* Performance Statistics Metrics */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 border-t border-b border-[#1D3D9E]/10 py-5">
               {selectedPort.metrics.map((metric, i) => (
-                <div key={i} className="bg-[#FCF9F3] border border-[#1D3D9E]/5 rounded-2xl p-4 space-y-1 text-center">
+                <div key={i} className="bg-slate-50 border border-[#1D3D9E]/5 rounded-2xl p-4 space-y-1 text-center">
                   <span className="text-[10px] font-bold text-[#0F2C59]/50 uppercase tracking-wide block">
                     {metric.label}
                   </span>
@@ -1007,7 +1011,7 @@ export default function WorkPage() {
             </div>
 
             {/* Dynamic Interactive SVG Chart */}
-            <div className="bg-[#FCF9F3] border border-[#1D3D9E]/10 rounded-[24px] p-5 space-y-4">
+            <div className="bg-slate-50 border border-[#1D3D9E]/10 rounded-[24px] p-5 space-y-4">
               <div className="flex justify-between items-center">
                 <span className="font-serif text-xs font-bold text-[#1D3D9E] uppercase tracking-wide flex items-center gap-1.5">
                   <TrendingUp className="w-4 h-4 text-[#FF6B00]" />
